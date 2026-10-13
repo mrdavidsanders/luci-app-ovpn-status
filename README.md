@@ -8,28 +8,16 @@ module. The old module used the **deprecated ucimap (`.htm`) view engine** and
 built the table **server-side in Lua** by string-concatenating raw HTML. This
 version uses the current LuCI JavaScript framework:
 
-- The view is a **JavaScript module** (`view.extend`) that builds the table
-  with the DOM helper `E()`. All text is escaped automatically (no XSS).
-- Data is read **directly by the browser-side JS** via the LuCI `fs` module
-  from `/tmp/openvpn_new.json` — there is no server-side HTML generation, no
-  `luci.jsonc`, no Lua template.
-- The page **auto-refreshes** every 30 seconds instead of relying on a cron
+- The view is now a JavaScript module.
+- Data is read directly by the browser-side JS via the LuCI `fs` module
+- The data auto-refreshes on a tunable timer instead of relying on a cron
   run plus a manual page reload.
-- It is packaged as a standard `luci-app-*` (proper `Makefile`, `root/`,
-  `htdocs/`, `po/`), so it installs with `opkg`/the OpenWrt buildroot like any
-  other LuCI app.
+- It is packaged as a standard `luci-app-*` (with `Makefile`, `root/`,
+  `htdocs/`, `po/`), so it installs with `apk`/`opkg` as a standard LuCI app.
 
-## Data flow
+## Data Collection
 
-```
-openvpn-server-status.sh  (local daemon)  ─┐
-                                           ├─> /tmp/openvpn_new.json
-openvpn-client-status.sh  (remote via SSH) ─┘            │
-                                                         ▼
-                        JS view (index.js) reads it with fs.read()
-```
-
-The collector scripts are unchanged in behaviour from the legacy module:
+The collector scripts are unchanged in behaviour from the old Lua module:
 `openvpn-server-status.sh` parses the OpenVPN status log (via `xan` or
 `csvkit` + `jq`) and `openvpn-client-status.sh` fetches the same JSON from a
 remote host over SSH.
@@ -62,9 +50,6 @@ Then open **Status → OpenVPN Status** in the LuCI web UI. The script copies th
 JS view and menu entry into place, installs the collector scripts, seeds
 `/tmp/openvpn_new.json`, and clears LuCI's caches. Remove it again with
 `./uninstall.sh`.
-
-> This is for testing only — it is not tracked by `opkg`. For a permanent
-> install, build the IPK and `opkg install` it.
 
 ## Configuration
 
@@ -108,29 +93,6 @@ uci commit openvpn_status
 The remote host must run a forced command that prints the status JSON (the
 same schema `openvpn-server-status.sh` produces).
 
-## Layout
-
-```
-luci-app-openvpn-status/
-├── Makefile
-├── install.sh                          # dev install on a running router (no IPK)
-├── uninstall.sh                        # remove the dev install
-├── htdocs/luci-static/resources/view/openvpn_status/index.js   # status JS view
-├── htdocs/luci-static/resources/view/openvpn_status/config.js  # config formview
-├── htdocs/luci-static/resources/view/status/include/90_openvpn_status.js  # Overview widget
-├── root/
-│   ├── etc/init.d/openvpn-status            # procd init script
-│   ├── etc/uci-defaults/openvpn_status      # default UCI config
-│   ├── usr/bin/openvpn-server-status.sh     # local collector
-│   ├── usr/bin/openvpn-client-status.sh     # remote (SSH) collector
-│   ├── usr/share/luci/menu.d/luci-app-openvpn-status.json  # menu entry
-│   └── usr/share/rpcd/acl.d/luci-app-openvpn-status.json  # rpcd ACL (file.read)
-├── po/templates/openvpn-status.pot          # i18n template
-└── test/
-    ├── openvpn_test.json                    # sample data
-    └── view.test.js                         # Node unit tests
-```
-
 ## Testing
 
 The data-transformation logic in the JS view is unit-tested with Node (no
@@ -141,4 +103,3 @@ make test
 
 ## Authors
 - mrdavidsanders <david at kubology dot uk>
-- sebabordon <sebasb@outlook.com>
