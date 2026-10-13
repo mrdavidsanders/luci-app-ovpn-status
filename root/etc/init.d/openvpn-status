@@ -33,8 +33,12 @@ start() {
 		return 1
 	}
 
+	# Run the collector in a loop, pacing it with the configured
+	# interval (seconds). The collector scripts themselves run once
+	# and exit, so without this loop procd would respawn them every
+	# ~5s regardless of the user's setting.
 	procd_open_instance "$collector"
-	procd_set_param command "$collector"
+	procd_set_param command /bin/sh -c "while :; do '$collector'; sleep '$interval'; done"
 	procd_set_param respawn 1 5 5
 	procd_set_param stdout 1
 	procd_set_param stderr 1

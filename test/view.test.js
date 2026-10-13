@@ -51,6 +51,15 @@ const fsStub = {};
 const ui = {};
 const tools = { widgets: {} };
 
+// Stub of the LuCI uci module. The view's refreshIntervalMs() reads
+// openvpn_status.main.interval from it; tests can override the value.
+const uciStub = {
+	__value: null,
+	get: function (cfg, section, option) {
+		return uciStub.__value;
+	}
+};
+
 // --- Load the view module ----------------------------------------------
 
 const viewPath = path.join(__dirname, '..', 'htdocs', 'luci-static', 'resources', 'view', 'openvpn_status', 'index.js');
@@ -61,7 +70,7 @@ let code = fs.readFileSync(viewPath, 'utf8');
 code = '(function(){\n' + code + '\n})()';
 
 const sandbox = {
-	E, _, view, dom, fs: fsStub, ui, tools,
+	E, _, view, dom, fs: fsStub, ui, tools, uci: uciStub,
 	JSON, console,
 	setInterval: function () { return 0; }
 };
@@ -73,6 +82,7 @@ const viewInstance = sandbox.view.__lastResult;
 const humanBytes = viewInstance.humanBytes;
 const splitAddrs = viewInstance.splitAddrs;
 const clientRow = viewInstance.clientRow;
+const refreshIntervalMs = viewInstance.refreshIntervalMs;
 
 // --- Tests --------------------------------------------------------------
 
@@ -119,5 +129,17 @@ ok(row.children[5].textContent() === '2026-08-22T02:25:07', 'cell 5 = Last Ref')
 const evil = clientRow({ 'Common Name': '<img src=x onerror=alert(1)>', 'Real Address': '1.2.3.4:5', 'Connected Since': 'x', 'Last Ref': 'y', 'Bytes Received': 0, 'Bytes Sent': 0, 'Virtual Address': ['10.0.0.1'] });
 ok(evil.children[0].children[0] === '<img src=x onerror=alert(1)>', 'hostile CN kept as a text node (escaped by LuCI at render time)');
 ok(evil.children.length === 6, 'hostile CN does not break row structure');
+
+console.log('refreshIntervalMs()');
+uciStub.__value = null;
+ok(refreshIntervalMs() === 60000, 'unset config falls back to 60s');
+uciStub.__value = '120';
+ok(refreshIntervalMs() === 120000, 'UCI value 120 -> 120000 ms');
+uciStub.__value = '5';
+ok(refreshIntervalMs() === 5000, 'UCI value 5 -> 5000 ms');
+uciStub.__value = '1';
+ok(refreshIntervalMs() === 5000, 'values below the 5s minimum are clamped');
+uciStub.__value = 'garbage';
+ok(refreshIntervalMs() === 60000, 'non-numeric value falls back to 60s');
 
 console.log('\nAll ' + passed + ' assertions passed.');

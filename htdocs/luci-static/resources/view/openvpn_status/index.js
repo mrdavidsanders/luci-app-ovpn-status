@@ -51,25 +51,29 @@ function clientRow(c) {
 	]);
 }
 
+// How often the browser re-reads the status JSON (ms). The user tunes this
+// via "Interval (seconds)" in Services -> OpenVPN Status (UCI:
+// openvpn_status.main.interval). The collector on the device is paced by the
+// same value (see root/etc/init.d/openvpn-status), so the page refresh and
+// the data collection stay in sync.
+function refreshIntervalMs() {
+	let secs = 60;
+	try {
+		const v = uci.get('openvpn_status', 'main', 'interval');
+		if (v)
+			secs = Math.max(5, +v || 60);
+	} catch (e) {
+		// Config not loaded / not present: keep the default.
+	}
+	return secs * 1000;
+}
+
 return view.extend({
 	// Exposed for unit testing (see test/view.test.js).
 	humanBytes: humanBytes,
 	splitAddrs: splitAddrs,
 	clientRow: clientRow,
-
-	// Hide this dedicated page when the widget is embedded on the
-	// Status Overview (avoids showing it in two places at once).
-	depends: {
-		uci: {
-			openvpn_status: {
-				main: {
-					show_on_overview: {
-						anyof: { 1: null }
-					}
-				}
-			}
-		}
-	},
+	refreshIntervalMs: refreshIntervalMs,
 
 	render: function() {
 		const table = E('table', { 'class': 'table' }, [
@@ -107,9 +111,10 @@ return view.extend({
 		}
 
 		// Initial load plus a periodic auto-refresh (replaces the old
-		// cron + page-reload approach).
+		// cron + page-reload approach). The period comes from the
+		// "Interval (seconds)" setting (default 60s when unset).
 		refresh();
-		setInterval(refresh, 30 * 1000);
+		setInterval(refresh, refreshIntervalMs());
 
 		return E('div', { 'class': 'cbi-section' }, [
 			E('h3', {}, [ _('Active OpenVPN Clients') ]),

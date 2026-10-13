@@ -5,6 +5,15 @@
 		"action": {
 			"type": "view",
 			"path": "openvpn_status/index"
+		},
+		"depends": {
+			"uci": {
+				"openvpn_status": {
+					"main": {
+						"show_on_overview": "0"
+					}
+				}
+			}
 		}
 	},
 	"admin/services/openvpn_status": {
