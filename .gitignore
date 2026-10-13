@@ -1,0 +1,10 @@
+# OpenWrt buildroot artifacts
+*.ipk
+*.pkg
+bin/
+build/
+package/
+
+# Node
+node_modules/
+*.log

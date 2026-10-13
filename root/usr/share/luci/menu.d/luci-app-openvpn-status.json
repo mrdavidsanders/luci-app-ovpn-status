@@ -1,0 +1,18 @@
+{
+	"admin/status/openvpn": {
+		"title": "OpenVPN Status",
+		"order": 60,
+		"action": {
+			"type": "view",
+			"path": "openvpn_status/index"
+		}
+	},
+	"admin/services/openvpn_status": {
+		"title": "OpenVPN Status",
+		"order": 100,
+		"action": {
+			"type": "view",
+			"path": "openvpn_status/config"
+		}
+	}
+}

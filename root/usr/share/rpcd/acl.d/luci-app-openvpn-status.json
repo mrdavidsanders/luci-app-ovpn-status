@@ -1,0 +1,13 @@
+{
+	"luci-app-openvpn-status": {
+		"description": "Allow reading the OpenVPN status JSON",
+		"read": {
+			"file": {
+				"/tmp/openvpn_new.json": [ "read" ]
+			},
+			"ubus": {
+				"file": [ "read" ]
+			}
+		}
+	}
+}

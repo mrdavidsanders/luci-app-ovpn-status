@@ -1,0 +1,113 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: root/usr/share/luci/menu.d/luci-app-openvpn-status.json:3
+msgid "OpenVPN Status"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:35
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:54
+msgid "Common Name"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:36
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:55
+msgid "VPN v4 / v6"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:37
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:56
+msgid "Remote Address"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:38
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:57
+msgid "RX / TX"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:41
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:58
+msgid "Connected"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:42
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:59
+msgid "Refreshed"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:60
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:66
+msgid "No OpenVPN status data available"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/index.js:70
+msgid "Active OpenVPN Clients"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Collector"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Where the OpenVPN client status is collected from."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Collection mode"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Collect from the local OpenVPN daemon, or fetch it from a remote server over SSH."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Local (this device)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Remote (over SSH)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Interval (seconds)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "How often the collector refreshes the status data."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "SSH user"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Username used to log in to the remote server."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "SSH host"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Hostname or IP address of the remote OpenVPN server. The key used for authentication is the device's default SSH key (see the \"SSH keys\" system setting)."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Max connection attempts"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "How many times to retry the SSH connection before giving up on a single collection cycle."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Show on Status Overview"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/openvpn_status/config.js
+msgid "Also display the client table on the main Status Overview page. When enabled, the dedicated \"OpenVPN Status\" page is hidden to avoid showing it twice."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/status/include/90_openvpn_status.js
+msgid "OpenVPN Clients"
+msgstr ""

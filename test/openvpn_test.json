@@ -1,0 +1,26 @@
+[
+  {
+    "Common Name": "test-phone",
+    "Real Address": "10.10.0.254:37440",
+    "Connected Since": "2026-08-21T16:06:46",
+    "Last Ref": "2026-08-22T02:25:07",
+    "Bytes Received": 16012576,
+    "Bytes Sent": 26567043,
+    "Virtual Address": [
+      "192.8.0.5",
+      "aa:42:42:42:42::5"
+    ]
+  },
+  {
+    "Common Name": "test-laptop",
+    "Real Address": "92.23.15.239:36084",
+    "Connected Since": "2026-09-21T03:30:24",
+    "Last Ref": "2026-09-22T02:38:51",
+    "Bytes Received": 192474864,
+    "Bytes Sent": 4468886754,
+    "Virtual Address": [
+      "192.8.0.6",
+      "aa:42:42:42:42::6"
+    ]
+  }
+]

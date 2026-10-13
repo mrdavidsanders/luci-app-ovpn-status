@@ -1,0 +1,19 @@
+# Default configuration for luci-app-openvpn-status.
+# Installed to /etc/config/openvpn_status on first boot (uci-defaults).
+
+config 'openvpn_status' 'main'
+	# "server"  - collect status from the local OpenVPN daemon
+	# "client"  - fetch status from a remote host over SSH
+	option 'mode' 'server'
+
+	# Seconds between status collection runs (used by the init script).
+	option 'interval' '60'
+
+	# Also show the client table on the Status Overview page (0/1).
+	option 'show_on_overview' '0'
+
+	# --- client mode only ---
+	# SSH user and host of the remote OpenVPN server.
+	option 'ssh_user' ''
+	option 'ssh_host' ''
+	option 'max_tries' '3'
